@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=4 uid="uid://btk0w7tlse01i"]
+[gd_scene load_steps=63 format=4 uid="uid://btk0w7tlse01i"]
 
 [ext_resource type="Texture2D" uid="uid://cb2l04qy2pfnr" path="res://Textures/Grass.jpg" id="2_4xxvw"]
 [ext_resource type="PackedScene" uid="uid://x3rogkcfjvi" path="res://playerNode.tscn" id="2_rg3pb"]
@@ -24,6 +24,7 @@
 [ext_resource type="Script" path="res://gpu_particles_3d.gd" id="22_ijfs3"]
 [ext_resource type="AudioStream" uid="uid://wejkrykoe0sd" path="res://SoundEffects/rain-sound-188158.mp3" id="23_jgyx3"]
 [ext_resource type="Shader" uid="uid://dypo3ckqxp6u7" path="res://Grass.tres" id="24_h4wkj"]
+[ext_resource type="Shader" uid="uid://dkkrsug0a60w7" path="res://Water.tres" id="25_rk6xw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31nu6"]
 albedo_texture = ExtResource("2_4xxvw")
@@ -209,6 +210,17 @@ use_particle_trails = true
 material = SubResource("StandardMaterial3D_sj0mx")
 curve = SubResource("Curve_ythff")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ygbay"]
+render_priority = 0
+shader = ExtResource("25_rk6xw")
+shader_parameter/ColorParameter = Color(0, 0.266667, 0.533333, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_k6ypc"]
+material = SubResource("ShaderMaterial_ygbay")
+size = Vector2(100, 100)
+subdivide_width = 20
+subdivide_depth = 20
+
 [node name="World" type="Node3D"]
 
 [node name="Ground" type="MeshInstance3D" parent="."]
@@ -220,7 +232,7 @@ mesh = SubResource("PlaneMesh_lh7ed")
 shape = SubResource("ConvexPolygonShape3D_4qo4j")
 
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.28, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.92, 0, 0, 0, 0.28, 0, 0, 0, 0.92, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_7lvos")
 cast_shadow = 0
 multimesh = SubResource("MultiMesh_x0u1m")
@@ -559,7 +571,7 @@ transform = Transform3D(-1.31134e-07, 3, 0, -3, -1.31134e-07, 0, 0, 0, 3, -7.939
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7.41126, 0.0170516, -1.99314)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.7587, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 10, 0)
 amount = 300
 lifetime = 2.0
 randomness = 0.53
@@ -574,3 +586,7 @@ script = ExtResource("22_ijfs3")
 stream = ExtResource("23_jgyx3")
 volume_db = -30.0
 autoplay = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0)
+mesh = SubResource("PlaneMesh_k6ypc")
