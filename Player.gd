@@ -34,6 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			var knockback = picked_object.position - position
 			picked_object.apply_central_impulse(knockback * 3)
 			remove_object()
+			$GravityGunShoot.play()
 			
 	if Input.is_action_just_pressed("interact"):
 		door_object()
@@ -57,7 +58,7 @@ func kick_object():
 		var knockback = kicked_object.position - position
 		kicked_object.apply_central_impulse(knockback * 10)
 		kicked_object = null
-		
+		$KickBall.play()
 
 func button_object():
 		var collider = interaction.get_collider()
@@ -78,10 +79,12 @@ func pick_object():
 	var collider = interaction.get_collider()
 	if collider != null and collider is RigidBody3D:
 		picked_object = collider
+		$GravityGunHold.play()
 		
 func remove_object():
 	if picked_object != null:
 		picked_object = null
+		$GravityGunHold.stop()
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -100,6 +103,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 	else:
+		$footstep.play()
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 		

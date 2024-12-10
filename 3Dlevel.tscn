@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://btk0w7tlse01i"]
+[gd_scene load_steps=52 format=3 uid="uid://btk0w7tlse01i"]
 
 [ext_resource type="Texture2D" uid="uid://cb2l04qy2pfnr" path="res://Textures/Grass.jpg" id="2_4xxvw"]
 [ext_resource type="PackedScene" uid="uid://x3rogkcfjvi" path="res://playerNode.tscn" id="2_rg3pb"]
@@ -21,6 +21,8 @@
 [ext_resource type="PackedScene" uid="uid://bbsy3778n8mb8" path="res://button.tscn" id="18_ad77c"]
 [ext_resource type="PackedScene" uid="uid://dmovk0fklb5q0" path="res://Lever.tscn" id="19_3myvp"]
 [ext_resource type="Texture2D" uid="uid://b1oxypru3jp5" path="res://Textures/Rain/Circle.png" id="21_thm3q"]
+[ext_resource type="Script" path="res://gpu_particles_3d.gd" id="22_ijfs3"]
+[ext_resource type="AudioStream" uid="uid://wejkrykoe0sd" path="res://SoundEffects/rain-sound-188158.mp3" id="23_jgyx3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31nu6"]
 albedo_texture = ExtResource("2_4xxvw")
@@ -171,7 +173,7 @@ shape = SubResource("ConvexPolygonShape3D_4qo4j")
 environment = SubResource("Environment_68c4y")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 7.0137, 0)
 shadow_enabled = true
 directional_shadow_max_distance = 250.0
 
@@ -500,7 +502,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7.411
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.7587, 0)
-amount = 100
+amount = 300
 lifetime = 2.0
 randomness = 0.53
 visibility_aabb = AABB(-10, -11, -10, 20, 20, 20)
@@ -508,3 +510,9 @@ trail_enabled = true
 trail_lifetime = 0.2
 process_material = SubResource("ParticleProcessMaterial_yosvh")
 draw_pass_1 = SubResource("RibbonTrailMesh_nt2va")
+script = ExtResource("22_ijfs3")
+
+[node name="Rain" type="AudioStreamPlayer" parent="GPUParticles3D"]
+stream = ExtResource("23_jgyx3")
+volume_db = -30.0
+autoplay = true

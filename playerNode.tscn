@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://x3rogkcfjvi"]
+[gd_scene load_steps=10 format=3 uid="uid://x3rogkcfjvi"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_bggl5"]
 [ext_resource type="Script" path="res://reticle.gd" id="2_0hu0g"]
 [ext_resource type="PackedScene" uid="uid://c2jtc4w4sce5v" path="res://GravityGun/gravity_gun.glb" id="2_b7tq7"]
+[ext_resource type="AudioStream" uid="uid://c7k05ab46uivn" path="res://SoundEffects/running-in-grass-6237.mp3" id="4_ng1gl"]
+[ext_resource type="AudioStream" uid="uid://dilbad6irsiw8" path="res://SoundEffects/soccer-ball-kick-37625.mp3" id="5_hmaew"]
+[ext_resource type="AudioStream" uid="uid://s7grawxw0hjo" path="res://SoundEffects/gravity-gun-hold-made-with-Voicemod.mp3" id="6_mybxx"]
+[ext_resource type="AudioStream" uid="uid://cgg6w7xytlxgs" path="res://SoundEffects/gravity-gun-shoot-made-with-Voicemod.mp3" id="7_cgmks"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_bgl1r"]
 
@@ -59,3 +63,21 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_0hu0g")
+
+[node name="footstep" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ng1gl")
+volume_db = -15.0
+autoplay = true
+parameters/looping = true
+
+[node name="KickBall" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_hmaew")
+volume_db = -10.0
+
+[node name="GravityGunHold" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_mybxx")
+volume_db = -20.0
+
+[node name="GravityGunShoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_cgmks")
+volume_db = -20.0
