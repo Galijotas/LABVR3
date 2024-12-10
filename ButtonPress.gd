@@ -7,5 +7,6 @@ func ButtonInteract():
 	if interactable == true:
 		interactable = false
 		animation_player.play("PressButton")
+		$ButtonPress.play()
 		await get_tree().create_timer(2.0, false).timeout
 		interactable = true

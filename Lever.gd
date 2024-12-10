@@ -10,7 +10,9 @@ func LeverInteract():
 		toggle = !toggle
 		if toggle == false:
 			animation_player.play("LeverOff")
+			$LeverSound.play()
 		if toggle == true:
 			animation_player.play("LeverOn")
+			$LeverSound.play()
 		await get_tree().create_timer(2.0, false).timeout
 		interactable = true
