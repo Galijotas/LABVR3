@@ -1,7 +1,8 @@
-[gd_scene load_steps=44 format=3 uid="uid://btk0w7tlse01i"]
+[gd_scene load_steps=50 format=3 uid="uid://btk0w7tlse01i"]
 
 [ext_resource type="Texture2D" uid="uid://cb2l04qy2pfnr" path="res://Textures/Grass.jpg" id="2_4xxvw"]
 [ext_resource type="PackedScene" uid="uid://x3rogkcfjvi" path="res://playerNode.tscn" id="2_rg3pb"]
+[ext_resource type="Texture2D" uid="uid://bbr5fwxcbjmvg" path="res://Textures/Sky/industrial_sunset_puresky_1k.hdr" id="3_axf0c"]
 [ext_resource type="Texture2D" uid="uid://5gkvbxukdi2y" path="res://Textures/Fence/VerticalPole/bark_willow_02_diff_1k.jpg" id="3_ml25q"]
 [ext_resource type="PackedScene" uid="uid://ciet15anrsf7u" path="res://Football/rectangular_goalpost_2.tscn" id="3_n6ow2"]
 [ext_resource type="Texture2D" uid="uid://cnrw8nl1cra6x" path="res://Textures/BasketBall/PoleTexture/textures/worn_corrugated_iron_diff_1k.jpg" id="3_vqgav"]
@@ -19,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://8vooxefyugry" path="res://Textures/BasketBall/Board/Basketball_Post_d.tga" id="15_nca6y"]
 [ext_resource type="PackedScene" uid="uid://bbsy3778n8mb8" path="res://button.tscn" id="18_ad77c"]
 [ext_resource type="PackedScene" uid="uid://dmovk0fklb5q0" path="res://Lever.tscn" id="19_3myvp"]
+[ext_resource type="Texture2D" uid="uid://b1oxypru3jp5" path="res://Textures/Rain/Circle.png" id="21_thm3q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31nu6"]
 albedo_texture = ExtResource("2_4xxvw")
@@ -31,18 +33,18 @@ size = Vector2(20, 20)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4qo4j"]
 points = PackedVector3Array(10.1548, 0.158668, 10.1548, -10.1548, -0.158668, -10.1548, -10.1548, 0.158668, -10.1548, 10.1548, -0.158668, -10.1548, -10.1548, -0.158668, 10.1548, -10.1548, 0.158668, 10.1548, 10.1548, 0.158668, -10.1548, 10.1548, -0.158668, 10.1548)
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0j0bu"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_tjb7h"]
+panorama = ExtResource("3_axf0c")
 
 [sub_resource type="Sky" id="Sky_oyhjg"]
-sky_material = SubResource("ProceduralSkyMaterial_0j0bu")
+sky_material = SubResource("PanoramaSkyMaterial_tjb7h")
 
 [sub_resource type="Environment" id="Environment_68c4y"]
 background_mode = 2
 sky = SubResource("Sky_oyhjg")
 tonemap_mode = 2
 glow_enabled = true
+volumetric_fog_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0crjs"]
 albedo_texture = ExtResource("3_ml25q")
@@ -123,6 +125,35 @@ radius = 0.298963
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0jtlm"]
 size = Vector3(0, 5, 20)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yosvh"]
+emission_shape = 3
+emission_box_extents = Vector3(10, 0.5, 10)
+direction = Vector3(0, -1, 0)
+spread = 5.0
+initial_velocity_min = 15.0
+initial_velocity_max = 15.0
+color = Color(0.478431, 0.8, 0.8, 0.607843)
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+
+[sub_resource type="Curve" id="Curve_ythff"]
+max_value = 0.1
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.015873, 0.0509184), 0.291152, 0.291152, 0, 0, Vector2(0.124339, 0.077449), 0.250714, 0.250714, 0, 0, Vector2(0.277778, 0.1), -0.0716325, -0.0716325, 0, 0, Vector2(0.992063, 0.000510201), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sj0mx"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("21_thm3q")
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_nt2va"]
+material = SubResource("StandardMaterial3D_sj0mx")
+curve = SubResource("Curve_ythff")
 
 [node name="World" type="Node3D"]
 
@@ -466,3 +497,14 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -7.30156, 0.158668, 0.363763)
 
 [node name="Lever" parent="." instance=ExtResource("19_3myvp")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7.41126, 0.0170516, -1.99314)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.7587, 0)
+amount = 100
+lifetime = 2.0
+randomness = 0.53
+visibility_aabb = AABB(-10, -11, -10, 20, 20, 20)
+trail_enabled = true
+trail_lifetime = 0.2
+process_material = SubResource("ParticleProcessMaterial_yosvh")
+draw_pass_1 = SubResource("RibbonTrailMesh_nt2va")
